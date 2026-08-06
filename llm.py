@@ -55,7 +55,8 @@ class Llm:
         params +=f"&search.categories={sp.category}" if sp.category else ""
         params +=f"&search.subCategories={sp.subCategory}" if sp.subCategory else ""
         params += f"&search.experiences={sp.experience}" if sp.experience else ""
-        params += f"&search.minimumSalary={sp.minimumSalary}" if sp.minimumSalary else ""
+        if sp.minimumSalary > 0:
+            params += f"&search.minimumSalary={sp.minimumSalary}"
 
         url = self.API_URL_TEMPLATE.format(division=division,searchParams=params)
 
@@ -80,11 +81,19 @@ class Llm:
             ###Kod JSON powinien być stworzony według poniższego schematu danych:
             {{
                 "location": nazwa miasta, typ string,
-                "category": nazwa stanowiska (np. Developer, Tester), typ string,
-                "subCategory": pod-kategoria (np. DotNet, Java), typ string,
-                "experience": doświadczenie zawodowe (np. Junior, Regular, Senior), typ string,
+                "category": nazwa stanowiska (Dostępne kategorie: ['Administrator', 'Analyst', 'Architect', 'DataScience', 'DevOps', 'Developer', 'ItManager', 'OtherIT', 'Security', 'Support', 'Tester', 'UXUIDesigner']), typ string, 
+                "subCategory": pod-kategoria (Dostępne pod-kategorie: ['Analyst', 'Android', 'Angular', 'Architect', 'CCPlusPlus', 'CloudAdministrator', 'DataScience', 'DatabaseAdministrator', 'DevOps', 'DotNet', 'ERP', 'Golang', 'IOS', 'Java', 'JavaScript', 'ManualTester', 'NetworkAdministrator', 'NodeJs', 'OtherAdministrator', 'OtherDeveloper', 'OtherIT', 'OtherItManager', 'OtherTester', 'PHP', 'ProductManager', 'ProductOwner', 'ProjectManager', 'Python', 'React', 'Ruby', 'ScrumMaster', 'Security', 'Support', 'SystemsAdministrator', 'TestAutomationEngineer', 'UXUIDesigner']), typ string,
+                "experience": doświadczenie zawodowe (Dostępne doświadczenie zawodowe: ['Junior', 'Regular', 'Senior']), typ string,
                 "minimumSalary": oczekiwania finansowe, typ integer,
             }}
+            
+            ##Jeżeli w opisie stanowiska pracy będzie brakować danych odnośnie: 
+            +nazwa miasta,
+            +nazwa stanowiska,
+            +pod-kategoria,
+            +doświadczenie,
+            +oczekiwania finansowe [tutaj ustaw "minimumSalary": 0 jeżeli będzie brak w opisie]
+            to poprostu te pola ustaw jako pusty string (np. "location":"")
             
             ##wygeneruj tylko kod JSON, bez opisu, bez wyjaśnień
         '''
@@ -104,4 +113,7 @@ class Llm:
                 "query": query
             }
         )
-        return result
+
+        print("----------PARAMS----------",result)
+
+        return result.replace("```json","").replace("```","")
