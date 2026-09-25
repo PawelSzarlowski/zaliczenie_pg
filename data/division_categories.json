@@ -1,0 +1,151 @@
+{
+  "generated_at": "2026-08-29",
+  "offers_seen": {
+    "Engineering": 91,
+    "Finances": 129,
+    "HR": 81,
+    "IT": 1047,
+    "Logistics": 80,
+    "Marketing": 109,
+    "Other": 89,
+    "Sales": 302
+  },
+  "divisions": {
+    "Engineering": {
+      "categories": [
+        "AutomationAndRobotics",
+        "ConstructionAndDesign",
+        "ElectronicsAndTelecommunication",
+        "MaintenanceEngineering",
+        "Mechatronics",
+        "OtherEngineering",
+        "ProductionEngineering",
+        "QualityEngineering",
+        "TechnologicalEngineering"
+      ],
+      "subCategories": {}
+    },
+    "Finances": {
+      "categories": [
+        "Accounting",
+        "AccountingConsulting",
+        "AnalyticsAndControlling",
+        "AuditsAndCompliance",
+        "Insurance",
+        "OtherFinances"
+      ],
+      "subCategories": {}
+    },
+    "HR": {
+      "categories": [
+        "GrowthAndCourses",
+        "HRSpecialist",
+        "OtherHr",
+        "Recruiter"
+      ],
+      "subCategories": {}
+    },
+    "IT": {
+      "categories": [
+        "Administrator",
+        "Analyst",
+        "Architect",
+        "AuditsAndCompliance",
+        "DataScience",
+        "DevOps",
+        "Developer",
+        "ItManager",
+        "OtherIT",
+        "Security",
+        "Support",
+        "Tester",
+        "UXUIDesigner"
+      ],
+      "subCategories": {
+        "Administrator": [
+          "CloudAdministrator",
+          "DatabaseAdministrator",
+          "NetworkAdministrator",
+          "OtherAdministrator",
+          "SystemsAdministrator"
+        ],
+        "Developer": [
+          "Android",
+          "Angular",
+          "CCPlusPlus",
+          "DotNet",
+          "Golang",
+          "IOS",
+          "Java",
+          "JavaScript",
+          "NodeJs",
+          "OtherDeveloper",
+          "PHP",
+          "Python",
+          "React",
+          "Scala"
+        ],
+        "ItManager": [
+          "OtherItManager",
+          "ProductManager",
+          "ProductOwner",
+          "ProjectManager",
+          "ScrumMaster"
+        ],
+        "OtherIT": [
+          "ERP"
+        ],
+        "Tester": [
+          "ManualTester",
+          "OtherTester",
+          "TestAutomationEngineer"
+        ]
+      }
+    },
+    "Logistics": {
+      "categories": [
+        "OtherLogistics",
+        "ProductionPlanning",
+        "PurchasesAndSupplies",
+        "SupplyChain",
+        "Transport"
+      ],
+      "subCategories": {}
+    },
+    "Marketing": {
+      "categories": [
+        "Copywriter",
+        "Marketing",
+        "MediaAndJournalism",
+        "OtherMarketing",
+        "SEO",
+        "SocialMediaSpecialist"
+      ],
+      "subCategories": {}
+    },
+    "Other": {
+      "categories": [
+        "LawAndAdministration",
+        "Management",
+        "OtherOther"
+      ],
+      "subCategories": {
+        "OtherOther": [
+          "Backoffice",
+          "GraphicDesigner"
+        ]
+      }
+    },
+    "Sales": {
+      "categories": [
+        "AccountManager",
+        "B2BSales",
+        "B2CSales",
+        "CustomerSuccess",
+        "ECommerce",
+        "OtherSales"
+      ],
+      "subCategories": {}
+    }
+  }
+}

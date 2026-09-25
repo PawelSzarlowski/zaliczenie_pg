@@ -1,55 +1,50 @@
-# =========================
 # Python
-# =========================
 __pycache__/
 *.py[cod]
-*$py.class
-
-# Virtual environments
 .venv/
 venv/
 env/
 
-# Bytecode cache
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-
-# Packaging / build artifacts
-build/
-dist/
-*.egg-info/
-.eggs/
-
-# Logs
-*.log
-logs/
-
-# Coverage
-.coverage
-coverage.xml
-htmlcov/
-
-# Environment variables
+# Secrets. .env.example is committed and holds no real value.
 .env
-.env.*
-!.env.example
+.env~
 
-# IDE / Editors
-.vscode/
+# What a run produces: CVs and the report. Reproducible from a profile, and
+# a CV is about a real person - it does not belong in a repository.
+results/
+
+# IDE
 .idea/
-*.iml
+.vscode/
 
-# OS files
-.DS_Store
-Thumbs.db
+# The Kaggle dataset: 17 MB, and reproducible from the link in the README.
+dataset/
 
-# Docker
-.dockerignore
+# What narzedzia/ produces on the way to a PDF. The mermaid bundle is 3.3 MB
+# and the build scripts re-download it; the rest are intermediate files, and
+# Chrome needs a profile directory of its own to print at all.
+narzedzia/mermaid.min.js
+narzedzia/chrome-profile/
+narzedzia/instrukcja.html
+narzedzia/instrukcja.pdf
+narzedzia/prezentacja.html
+narzedzia/prezentacja.pdf
+narzedzia/schemat.html
+narzedzia/schemat.pdf
+# The rendered DOM the build reads back to count diagrams and spot the ones
+# that failed. Useful to open when a check complains, worthless in history.
+narzedzia/schemat-dom.html
+narzedzia/prezentacja-dom.html
 
-# Test outputs
-report.xml
+/tools/chrome-profile/*
+/tools/*.pdf
 
-# Misc temporary files
-*.tmp
-*.swp
+/tools/schemat.html
+/tools/instrukcja.html
+/tools/*-dom.html
+/tools/mermaid.min.js
+/tools/prezentacja-png/
+
+# LibreOffice, while the deck is open in it.
+/tools/.~lock.*#
+/tools/*.tmp
