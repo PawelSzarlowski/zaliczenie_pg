@@ -439,7 +439,10 @@ has not ended is the step limit, which is money and not judgement.
 
 The version that gets sent is chosen by arithmetic, never by the agent and
 never "the last one". Only reviewed versions are candidates; those the fact
-check did not reject come first; within `SCORE_NOISE` (7 points) of the best
+check did not reject come first, and among those the ones without a single
+unsupported sentence, whatever their marks - an invented skill outside the
+hard sections does not reject a version, but the reviewer rewards it with a
+higher mark; within `SCORE_NOISE` (7 points) of the best
 mark the marks say nothing, so the version with fewer unsupported sentences
 wins, then fewer document defects, then the earlier one. A measured run went
 48.5 → 49.75 → 50.65 with the third version rejected by the fact check: the

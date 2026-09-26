@@ -71,11 +71,21 @@ Odpowiadaj wyłącznie wywołaniami narzędzi z listy dostępnych.
 """
 
 
+def truth_rank(review):
+    """0 rejected by the fact check, 1 not rejected but with an unsupported
+    sentence, 2 without a single one. The order pick_best chooses by."""
+    if review.hard_fail:
+        return 0
+    return 1 if review.unsupported else 2
+
+
 def pick_best(versions):
     """Which version gets sent. Returns (iteration, cleared_the_hard_gate).
 
     Step 7. Arithmetic, no model, over the REVIEWED versions only. Among
-    those that cleared the fact check, the best mark wins; within
+    those that cleared the fact check, the ones without a single unsupported
+    sentence go first, whatever their marks; only when there is none do the
+    others compete. Within that pool the best mark wins; within
     config.SCORE_NOISE of it the marks are noise, so the version with fewer
     unsupported sentences wins, then fewer document defects, then the
     earlier one. If nothing cleared the gate, the best of the rejected is
@@ -88,8 +98,12 @@ def pick_best(versions):
     if not reviewed:
         return 0, False
 
-    clean = [version for version in reviewed if not version.review.hard_fail]
-    pool = clean or reviewed
+    # The best rank present decides who competes. An invented skill outside
+    # the hard sections does not reject a version, but the reviewer rewards
+    # it with a higher mark. 
+    reached = max(truth_rank(version.review) for version in reviewed)
+    pool = [version for version in reviewed
+            if truth_rank(version.review) == reached]
 
     top = max((version.review.total or 0.0) for version in pool)
     contenders = [version for version in pool
@@ -101,7 +115,7 @@ def pick_best(versions):
                key=lambda version: (len(version.review.unsupported),
                                     len(version.review.document_defects),
                                     version.iteration))
-    return best.iteration, bool(clean)
+    return best.iteration, reached > 0
 
 
 class OfferRun:
@@ -222,23 +236,28 @@ class OfferRun:
     def made_progress(self, version):
         """Is this version better than everything reviewed before it?
 
-        Two things count: a mark higher by more than config.SCORE_NOISE (the
-        same noise band pick_best uses), or clearing a fact check every
-        earlier version failed - a rejected CV cannot be sent whatever it
-        scores. Fewer unsupported sentences alone is a tie-break for
-        pick_best, not progress.
+        Better in the order pick_best chooses by, or the two would disagree
+        on what "better" means. Reaching a rank no earlier version reached
+        is progress - the first version the fact check does not reject, the
+        first without a single unsupported sentence - because it changes
+        what can be sent, even with the mark standing still. Within the best
+        rank reached so far, a mark higher by more than config.SCORE_NOISE
+        is progress. A higher mark in a lower rank is not: pick_best would
+        never send that version. Fewer unsupported sentences alone is a
+        tie-break for pick_best, not progress.
         """
         earlier = [one for one in self.versions[:-1] if one.review is not None]
         if not earlier:
             return True
 
-        best = max((one.review.total or 0.0) for one in earlier)
-        if (version.review.total or 0.0) > best + config.SCORE_NOISE:
-            return True
+        reached = max(truth_rank(one.review) for one in earlier)
+        mine = truth_rank(version.review)
+        if mine != reached:
+            return mine > reached
 
-        # Everything so far was rejected and this one is not.
-        return (all(one.review.hard_fail for one in earlier)
-                and not version.review.hard_fail)
+        best = max((one.review.total or 0.0) for one in earlier
+                   if truth_rank(one.review) == reached)
+        return (version.review.total or 0.0) > best + config.SCORE_NOISE
 
     def last_reviewed(self):
         for version in reversed(self.versions):
